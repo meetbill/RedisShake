@@ -129,8 +129,14 @@ func (ld *Loader) parseRDBEntry(ctx context.Context, rd *bufio.Reader) {
 			_ = structure.ReadLength(rd) // slot_id
 			_ = structure.ReadLength(rd) // slot_size
 			_ = structure.ReadLength(rd) // expires_slot_size
-		case kFlagFunction, kFlagFunction2:
+		case kFlagFunction:
 			log.Panicf("function library data not supported, need PR to support")
+		case kFlagFunction2:
+			function := structure.ReadString(rd)
+			log.Debugf("function: %s", function)
+			e := entry.NewEntry()
+			e.Argv = []string{"function", "load", function}
+			ld.ch <- e
 		case kFlagModuleAux:
 			moduleId := structure.ReadLength(rd) // module id
 			moduleName := types.ModuleTypeNameByID(moduleId)
