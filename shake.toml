@@ -102,6 +102,11 @@ status_port = 0 # status port, 0 means disable
 log_file = "shake.log"
 log_level = "info"     # debug, info or warn
 log_interval = 5       # in seconds
+log_rotation = true    # enable log rotation
+log_max_size = 512     # MiB, logs max size to rotate, default 512 MiB
+log_max_age = 7        # days, logs are kept, default 7 days
+log_max_backups = 3    # number of log backups, default 3
+log_compress = true    # enable log compression after rotate, default true
 
 # redis-shake gets key and value from rdb file, and uses RESTORE command to
 # create the key in target redis. Redis RESTORE will return a "Target key name

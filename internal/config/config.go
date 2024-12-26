@@ -41,9 +41,14 @@ type AdvancedOptions struct {
 	StatusPort int `mapstructure:"status_port" default:"0"`
 
 	// log
-	LogFile     string `mapstructure:"log_file" default:"shake.log"`
-	LogLevel    string `mapstructure:"log_level" default:"info"`
-	LogInterval int    `mapstructure:"log_interval" default:"5"`
+	LogFile       string `mapstructure:"log_file" default:"shake.log"`
+	LogLevel      string `mapstructure:"log_level" default:"info"`
+	LogInterval   int    `mapstructure:"log_interval" default:"5"`
+	LogRotation   bool   `mapstructure:"log_rotation" default:"true"`
+	LogMaxSize    int    `mapstructure:"log_max_size" default:"512"`
+	LogMaxAge     int    `mapstructure:"log_max_age" default:"7"`
+	LogMaxBackups int    `mapstructure:"log_max_backups" default:"3"`
+	LogCompress   bool   `mapstructure:"log_compress" default:"true"`
 
 	// redis-shake gets key and value from rdb file, and uses RESTORE command to
 	// create the key in target redis. Redis RESTORE will return a "Target key name

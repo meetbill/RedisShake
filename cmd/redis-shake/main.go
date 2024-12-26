@@ -48,7 +48,14 @@ func main() {
 
 	v := config.LoadConfig()
 
-	log.Init(config.Opt.Advanced.LogLevel, config.Opt.Advanced.LogFile, config.Opt.Advanced.Dir)
+	log.Init(config.Opt.Advanced.LogLevel,
+		config.Opt.Advanced.LogFile,
+		config.Opt.Advanced.Dir,
+		config.Opt.Advanced.LogRotation,
+		config.Opt.Advanced.LogMaxSize,
+		config.Opt.Advanced.LogMaxAge,
+		config.Opt.Advanced.LogMaxBackups,
+		config.Opt.Advanced.LogCompress)
 	utils.ChdirAndAcquireFileLock()
 	utils.SetNcpu()
 	utils.SetPprofPort()

@@ -2,15 +2,17 @@ package log
 
 import (
 	"fmt"
+	"io"
 	"os"
 	"path/filepath"
 
 	"github.com/rs/zerolog"
+	"gopkg.in/natefinch/lumberjack.v2"
 )
 
 var logger zerolog.Logger
 
-func Init(level string, file string, dir string) {
+func Init(level string, file string, dir string, rotation bool, size int, age int, backups int, compress bool) {
 	// log level
 	switch level {
 	case "debug":
@@ -38,7 +40,19 @@ func Init(level string, file string, dir string) {
 
 	// log file
 	consoleWriter := zerolog.ConsoleWriter{Out: os.Stdout, TimeFormat: "2006-01-02 15:04:05"}
-	fileWriter, err := os.OpenFile(path, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0666)
+	var fileWriter io.Writer
+	if rotation {
+		fileWriter = &lumberjack.Logger{
+			Filename:   path,
+			MaxSize:    size, // megabytes
+			MaxBackups: backups,
+			MaxAge:     age,      //days
+			Compress:   compress, // disabled by default
+			LocalTime:  true,
+		}
+	} else {
+		fileWriter, err = os.OpenFile(path, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0666)
+	}
 	if err != nil {
 		panic(fmt.Sprintf("open log file failed. file=[%s], err=[%s]", path, err))
 	}
