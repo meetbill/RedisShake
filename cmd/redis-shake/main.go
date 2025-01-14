@@ -139,6 +139,14 @@ func main() {
 	// create writer
 	var theWriter writer.Writer
 	switch {
+	case v.IsSet("file_writer"):
+		opts := new(writer.FileWriterOptions)
+		defaults.SetDefaults(opts)
+		err := v.UnmarshalKey("file_writer", opts)
+		if err != nil {
+			log.Panicf("failed to read the FileWriter config entry. err: %v", err)
+		}
+		theWriter = writer.NewFileWriter(ctx, opts)
 	case v.IsSet("redis_writer"):
 		opts := new(writer.RedisWriterOptions)
 		defaults.SetDefaults(opts)

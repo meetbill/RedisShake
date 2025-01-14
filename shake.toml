@@ -35,6 +35,10 @@ password = ""              # keep empty if no authentication is required
 tls = false
 off_reply = false          # turn off the server reply
 
+# [file_writer]
+# filepath = "/tmp/cmd.txt"
+# type = "cmd" #cmd,aof,json (default cmd)
+
 [filter]
 # Allow keys with specific prefixes or suffixes
 # Examples:
